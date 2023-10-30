@@ -4,7 +4,7 @@
 
 namespace Arghiroiu_Raluca_Lab2.Migrations
 {
-    public partial class Author : Migration
+    public partial class AddAuthor : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,8 @@ namespace Arghiroiu_Raluca_Lab2.Migrations
                 name: "AuthorID",
                 table: "Book",
                 type: "int",
-                nullable: true);
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.CreateTable(
                 name: "Author",
@@ -42,7 +43,8 @@ namespace Arghiroiu_Raluca_Lab2.Migrations
                 table: "Book",
                 column: "AuthorID",
                 principalTable: "Author",
-                principalColumn: "ID");
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

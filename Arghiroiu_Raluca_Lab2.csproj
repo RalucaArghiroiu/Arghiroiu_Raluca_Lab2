@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20231022133422_InitialCreate.cs" />
+    <Compile Remove="Migrations\20231022133422_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20231022141013_PublishingDate.cs" />
+    <Compile Remove="Migrations\20231022141013_PublishingDate.Designer.cs" />
+    <Compile Remove="Migrations\20231022145839_Publisher.cs" />
+    <Compile Remove="Migrations\20231022145839_Publisher.Designer.cs" />
+    <Compile Remove="Migrations\20231022150847_Author.cs" />
+    <Compile Remove="Migrations\20231022150847_Author.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.23" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.23" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.23">

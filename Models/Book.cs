@@ -10,7 +10,10 @@ namespace Arghiroiu_Raluca_Lab2.Models
         [Display(Name = "Book Title")]
         public string Title { get; set; }
 
-        public string Author { get; set; }
+        [Display(Name = "Author")]
+        public int? AuthorID { get; set; }
+
+        public Author? Author { get; set; } // reference navigation property
 
         [Column(TypeName = "decimal(6, 2)")]
         public decimal Price { get; set; }

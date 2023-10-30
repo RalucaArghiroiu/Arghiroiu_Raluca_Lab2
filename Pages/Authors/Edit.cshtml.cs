@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Arghiroiu_Raluca_Lab2.Data;
 using Arghiroiu_Raluca_Lab2.Models;
 
-namespace Arghiroiu_Raluca_Lab2.Pages.Books
+namespace Arghiroiu_Raluca_Lab2.Pages.Authors
 {
     public class EditModel : PageModel
     {
@@ -21,29 +21,21 @@ namespace Arghiroiu_Raluca_Lab2.Pages.Books
         }
 
         [BindProperty]
-        public Book Book { get; set; } = default!;
+        public Author Author { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Book == null)
+            if (id == null || _context.Author == null)
             {
                 return NotFound();
             }
 
-            var book =  await _context.Book.FirstOrDefaultAsync(m => m.ID == id);
-            if (book == null)
+            var author =  await _context.Author.FirstOrDefaultAsync(m => m.ID == id);
+            if (author == null)
             {
                 return NotFound();
             }
-            Book = book;
-
-            ViewData["PublisherID"] = new SelectList(_context.Set<Publisher>(), "ID", "PublisherName");
-            ViewData["AuthorID"] = new SelectList(_context.Set<Author>()
-                .Select(author => new SelectListItem {
-                    Value = author.ID.ToString(),
-                    Text = author.FirstName + " " + author.LastName
-                }), "Value", "Text");
-
+            Author = author;
             return Page();
         }
 
@@ -56,7 +48,7 @@ namespace Arghiroiu_Raluca_Lab2.Pages.Books
                 return Page();
             }
 
-            _context.Attach(Book).State = EntityState.Modified;
+            _context.Attach(Author).State = EntityState.Modified;
 
             try
             {
@@ -64,7 +56,7 @@ namespace Arghiroiu_Raluca_Lab2.Pages.Books
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BookExists(Book.ID))
+                if (!AuthorExists(Author.ID))
                 {
                     return NotFound();
                 }
@@ -77,9 +69,9 @@ namespace Arghiroiu_Raluca_Lab2.Pages.Books
             return RedirectToPage("./Index");
         }
 
-        private bool BookExists(int id)
+        private bool AuthorExists(int id)
         {
-          return (_context.Book?.Any(e => e.ID == id)).GetValueOrDefault();
+          return (_context.Author?.Any(e => e.ID == id)).GetValueOrDefault();
         }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Arghiroiu_Raluca_Lab2.Data;
 using Arghiroiu_Raluca_Lab2.Models;
 
-namespace Arghiroiu_Raluca_Lab2.Pages.Books
+namespace Arghiroiu_Raluca_Lab2.Pages.Authors
 {
     public class IndexModel : PageModel
     {
@@ -19,16 +19,13 @@ namespace Arghiroiu_Raluca_Lab2.Pages.Books
             _context = context;
         }
 
-        public IList<Book> Book { get;set; } = default!;
+        public IList<Author> Author { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            if (_context.Book != null)
+            if (_context.Author != null)
             {
-                Book = await _context.Book
-                    .Include(book => book.Publisher)
-                    .Include(book => book.Author)
-                    .ToListAsync();
+                Author = await _context.Author.ToListAsync();
             }
         }
     }
