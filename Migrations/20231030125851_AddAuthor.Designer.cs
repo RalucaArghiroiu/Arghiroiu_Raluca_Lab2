@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Arghiroiu_Raluca_Lab2.Migrations
 {
     [DbContext(typeof(Arghiroiu_Raluca_Lab2Context))]
-    [Migration("20231030101434_AddAuthor")]
+    [Migration("20231030125851_AddAuthor")]
     partial class AddAuthor
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,7 +53,7 @@ namespace Arghiroiu_Raluca_Lab2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int>("AuthorID")
+                    b.Property<int?>("AuthorID")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -98,10 +98,8 @@ namespace Arghiroiu_Raluca_Lab2.Migrations
             modelBuilder.Entity("Arghiroiu_Raluca_Lab2.Models.Book", b =>
                 {
                     b.HasOne("Arghiroiu_Raluca_Lab2.Models.Author", "Author")
-                        .WithMany("Books")
-                        .HasForeignKey("AuthorID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("AuthorID");
 
                     b.HasOne("Arghiroiu_Raluca_Lab2.Models.Publisher", "Publisher")
                         .WithMany("Books")
@@ -110,11 +108,6 @@ namespace Arghiroiu_Raluca_Lab2.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("Publisher");
-                });
-
-            modelBuilder.Entity("Arghiroiu_Raluca_Lab2.Models.Author", b =>
-                {
-                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("Arghiroiu_Raluca_Lab2.Models.Publisher", b =>

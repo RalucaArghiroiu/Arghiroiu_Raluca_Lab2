@@ -16,8 +16,7 @@ namespace Arghiroiu_Raluca_Lab2.Migrations
                 name: "AuthorID",
                 table: "Book",
                 type: "int",
-                nullable: false,
-                defaultValue: 0);
+                nullable: true);
 
             migrationBuilder.CreateTable(
                 name: "Author",
@@ -43,8 +42,7 @@ namespace Arghiroiu_Raluca_Lab2.Migrations
                 table: "Book",
                 column: "AuthorID",
                 principalTable: "Author",
-                principalColumn: "ID",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "ID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

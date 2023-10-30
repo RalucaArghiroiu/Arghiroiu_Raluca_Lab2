@@ -22,6 +22,27 @@ namespace Arghiroiu_Raluca_Lab2.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Arghiroiu_Raluca_Lab2.Models.Author", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Author");
+                });
+
             modelBuilder.Entity("Arghiroiu_Raluca_Lab2.Models.Book", b =>
                 {
                     b.Property<int>("ID")
@@ -30,9 +51,8 @@ namespace Arghiroiu_Raluca_Lab2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("AuthorID")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(6,2)");
@@ -48,6 +68,8 @@ namespace Arghiroiu_Raluca_Lab2.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("AuthorID");
 
                     b.HasIndex("PublisherID");
 
@@ -73,9 +95,15 @@ namespace Arghiroiu_Raluca_Lab2.Migrations
 
             modelBuilder.Entity("Arghiroiu_Raluca_Lab2.Models.Book", b =>
                 {
+                    b.HasOne("Arghiroiu_Raluca_Lab2.Models.Author", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorID");
+
                     b.HasOne("Arghiroiu_Raluca_Lab2.Models.Publisher", "Publisher")
                         .WithMany("Books")
                         .HasForeignKey("PublisherID");
+
+                    b.Navigation("Author");
 
                     b.Navigation("Publisher");
                 });
