@@ -20,15 +20,33 @@ namespace Arghiroiu_Raluca_Lab2.Pages.Books
         }
 
         public IList<Book> Book { get;set; } = default!;
+        public BookData BookData { get;set; }
+        public int BookID { get; set; }
+        public int CategoryID { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int? id, int? categoryId)
         {
-            if (_context.Book != null)
+            BookData = new BookData();
+
+            BookData.Books = await _context.Book
+                .Include(b => b.Author)
+                .Include(b => b.Publisher)
+                .Include(b => b.BookCategories)
+                .ThenInclude(b => b.Category)
+                .AsNoTracking()
+                .OrderBy(b => b.Title)
+                .ToListAsync();
+
+            if (id != null)
             {
-                Book = await _context.Book
-                    .Include(book => book.Publisher)
-                    .Include(book => book.Author)
-                    .ToListAsync();
+                BookID = id.Value;
+
+                Book book = BookData.Books
+                    .Where(b => b.ID == id.Value)
+                    .Single();
+
+                BookData.Categories = book.BookCategories.Select(b => b.Category);
+
             }
         }
     }

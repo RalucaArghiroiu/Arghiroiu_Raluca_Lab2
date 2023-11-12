@@ -16,5 +16,7 @@ namespace Arghiroiu_Raluca_Lab2.Models
         {
             return $"{FirstName} {LastName}";
         }
+
+        public ICollection<Book>? Books { get; set; } // collection navigation property
     }
 }

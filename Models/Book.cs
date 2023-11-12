@@ -25,5 +25,8 @@ namespace Arghiroiu_Raluca_Lab2.Models
         public int? PublisherID { get; set; }
 
         public Publisher? Publisher { get; set; } // reference navigation property
+
+        [Display(Name = "Book Categories")]
+        public ICollection<BookCategory>? BookCategories { get; set; } // collection navigation property
     }
 }
