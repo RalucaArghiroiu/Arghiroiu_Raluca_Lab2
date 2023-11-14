@@ -37,6 +37,7 @@ namespace Arghiroiu_Raluca_Lab2.Pages.Books
                 .ThenInclude(b => b.Category)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(b => b.ID == id);
+
             if (book == null)
             {
                 return NotFound();
@@ -80,7 +81,7 @@ namespace Arghiroiu_Raluca_Lab2.Pages.Books
                 (
                     bookToUpdate,
                     "Book",
-                    b => b.Title, b => b.Author, b => b.Price, b => b.PublishingDate, b => b.PublisherID
+                    b => b.Title, b => b.AuthorID, b => b.Price, b => b.PublishingDate, b => b.PublisherID
                 )
             )
             {

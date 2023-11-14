@@ -23,10 +23,18 @@ namespace Arghiroiu_Raluca_Lab2.Pages.Books
         public BookData BookData { get;set; }
         public int BookID { get; set; }
         public int CategoryID { get; set; }
+        public string TitleSort { get; set; }
+        public string AuthorSort { get; set; }
+        public string CurrentFilter { get; set; }
 
-        public async Task OnGetAsync(int? id, int? categoryId)
+        public async Task OnGetAsync(int? id, int? categoryId, string sortOrder, string searchString)
         {
             BookData = new BookData();
+
+            TitleSort = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            AuthorSort = sortOrder == "author" ? "author_desc" : "author";
+
+            CurrentFilter = searchString;
 
             BookData.Books = await _context.Book
                 .Include(b => b.Author)
@@ -36,6 +44,16 @@ namespace Arghiroiu_Raluca_Lab2.Pages.Books
                 .AsNoTracking()
                 .OrderBy(b => b.Title)
                 .ToListAsync();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                BookData.Books = BookData.Books.Where
+                (
+                    b => b.Title.Contains(searchString) ||
+                    b.Author.FirstName.Contains(searchString) ||
+                    b.Author.LastName.Contains(searchString
+                ));
+            }
 
             if (id != null)
             {
@@ -47,6 +65,22 @@ namespace Arghiroiu_Raluca_Lab2.Pages.Books
 
                 BookData.Categories = book.BookCategories.Select(b => b.Category);
 
+            }
+
+            switch (sortOrder)
+            {
+                case "title_desc":
+                    BookData.Books = BookData.Books.OrderByDescending(b => b.Title);
+                    break;
+                case "author_desc":
+                    BookData.Books = BookData.Books.OrderByDescending(b => b.Author.GetFullName());
+                    break;
+                case "author":
+                    BookData.Books = BookData.Books.OrderBy(b => b.Author.GetFullName());
+                    break;
+                default:
+                    BookData.Books = BookData.Books.OrderBy(b => b.Title);
+                    break;
             }
         }
     }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Arghiroiu_Raluca_Lab2.Data;
 using Arghiroiu_Raluca_Lab2.Models;
+using Arghiroiu_Raluca_Lab2.Models.ViewModels;
 
 namespace Arghiroiu_Raluca_Lab2.Pages.Publishers
 {
@@ -21,11 +22,28 @@ namespace Arghiroiu_Raluca_Lab2.Pages.Publishers
 
         public IList<Publisher> Publisher { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public PublisherIndexData PublisherData { get; set; }
+        public int PublisherID { get; set; }
+        public int BookID { get; set; }
+
+        // The OnGetAsync method is called when the page is requested
+        // It takes parameters from the URL id and bookId
+        public async Task OnGetAsync(int? id, int? bookId)
         {
-            if (_context.Publisher != null)
+            PublisherData = new PublisherIndexData();
+            PublisherData.Publishers = await _context.Publisher
+                .Include(p => p.Books)
+                .ThenInclude(b => b.Author)
+                .OrderBy(p => p.PublisherName)
+                .ToListAsync();
+
+            if (id != null)
             {
-                Publisher = await _context.Publisher.ToListAsync();
+                PublisherID = id.Value;
+                Publisher publisher = PublisherData.Publishers
+                    .Where(p => p.ID == PublisherID)
+                    .Single();
+                PublisherData.Books = publisher.Books;
             }
         }
     }
