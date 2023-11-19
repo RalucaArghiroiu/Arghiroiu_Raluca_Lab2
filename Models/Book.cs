@@ -28,5 +28,7 @@ namespace Arghiroiu_Raluca_Lab2.Models
 
         [Display(Name = "Book Categories")]
         public ICollection<BookCategory>? BookCategories { get; set; } // collection navigation property
+
+        public ICollection<Borrowing>? Borrowings { get; set; } // collection navigation property
     }
 }
