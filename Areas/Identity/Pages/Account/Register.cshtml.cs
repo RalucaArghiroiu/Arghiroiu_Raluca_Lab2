@@ -132,16 +132,7 @@ namespace Arghiroiu_Raluca_Lab2.Areas.Identity.Pages.Account
             {
                 _logger.LogInformation("User created a new account with password.");
 
-                try
-                {
-                    await _userManager.AddToRoleAsync(user, "User");
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Error adding user to role");
-                    // Handle the error as needed
-                }
-
+                await _userManager.AddToRoleAsync(user, "User");
                 var userId = await _userManager.GetUserIdAsync(user);
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
